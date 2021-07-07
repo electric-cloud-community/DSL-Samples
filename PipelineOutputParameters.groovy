@@ -13,7 +13,7 @@ project "Pipeline Output Parameters", {
 			}
 			task "Use output parameter",{
 				actualParameter = [
-					'commandToRun': 'echo \$[/myStageRuntime/tasks/Set output parameter/job/outputParameters/Out]',
+					'commandToRun': 'echo \$[/myJob/jobSteps[Set output parameter]/outputParameters/Out]',
 				]
 				taskType = 'COMMAND'			
 			}

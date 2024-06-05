@@ -3,6 +3,7 @@ import groovy.yaml.*
 def configYaml = '''\
 pipelines:
   - name: My Pipeline
+    project: Default
     stages:
       - name: QA
         tasks:
@@ -10,7 +11,7 @@ pipelines:
             type: command
             command: echo testing...
       - name: UAT
-        gate:
+        gates:
           - name: QA approval
             approvers:
               - qa
@@ -19,4 +20,23 @@ pipelines:
 
 def config = new YamlSlurper().parseText(configYaml)
 
-config.pipelines
+String dsl=""
+
+config.pipelines.each { pipeline ->
+  dsl += "pipeline \"${pipeline.name}\", projectName: \"${pipeline.project}\"" + ',{\n'
+  pipeline.stages.each { stage ->
+  	dsl += "\n\tstage \"${stage.name}\"" + ',{\n'
+    stage.gates.each { gate ->
+      dsl += "\n\t\tgate \"${gate.name}\"" + ',{\n'
+      dsl += '\n\t\t}'
+    }  	
+    stage.tasks.each { task ->
+      dsl += "\n\t\ttask \"${task.name}\"" + ',{\n'
+      dsl += '\n\t\t}'
+    }
+    dsl += '\n\t}'
+  }
+  dsl += '\n}'
+}
+
+dsl

@@ -2,7 +2,7 @@
 
 CloudBees CD/RO DSL: Create a dashboard with a number of reports showing pipeline start and complete status
 
-ectool evalDsl --dslFile "pipelineStatsDashboard_v2.dsl"
+ectool evalDsl --dslFile "pipelineStatsDashboard_v3.dsl"
 
 */
 
